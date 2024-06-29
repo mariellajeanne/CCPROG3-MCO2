@@ -1,0 +1,8 @@
+Categories:
+- Constructor
+- Getters
+- Setters
+- Adders
+- Removers
+- Updaters
+- Booleans
