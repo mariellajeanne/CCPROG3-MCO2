@@ -5,7 +5,9 @@
  * Consists of the different system states.
  */
 
-public enum State
+public enum Context
 {
-    
+    MAIN_MENU,
+    CREATE_HOTEL,
+    ADD_DISCOUNT
 }

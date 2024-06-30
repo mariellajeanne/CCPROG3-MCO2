@@ -77,8 +77,8 @@ public class Hotel
      */
     public Room getRoom(int index)
     {
-        if (index >= 0 && index < this.getMaxNumOfRooms())
-            return this.rooms.get(index);
+        if (index >= 0 && index < getMaxNumOfRooms())
+            return rooms.get(index);
         
         return null;
     }
@@ -90,10 +90,10 @@ public class Hotel
      */
     public Room getRoom(String name)
     {
-        for (int i = 0; i < this.getNumOfRooms(); i++)
+        for (int i = 0; i < getNumOfRooms(); i++)
         {
-            if (this.getRoom(i).getName().equals(name))
-                return this.getRoom(i);
+            if (getRoom(i).getName().equals(name))
+                return getRoom(i);
         }
         return null;
     }
@@ -117,9 +117,9 @@ public class Hotel
     {
         int num = 0;
 
-        for (int i = 0; i < this.getNumOfRooms(); i++)
+        for (int i = 0; i < getNumOfRooms(); i++)
         {
-            if(this.getRoom(i).getNumOfReservations() == 0)
+            if(getRoom(i).getNumOfReservations() == 0)
                 num++;
         }
         return num;
@@ -165,17 +165,18 @@ public class Hotel
      * Returns true only if the given number of rooms is within
      * the maximum post-addition.
      * 
+     * @param type {String} The type of rooms to add.
      * @param num {int} The number of rooms to add.
      * @return {boolean}
      */
-    public boolean addRooms(int num)
+    public boolean addRooms(String type, int num)
     {
-        if (num >= 1 && this.getNumOfRooms() + num <= Hotel.MAX_NUM_OF_ROOMS)
+        if (num >= 1 && getNumOfRooms() + num <= Hotel.MAX_NUM_OF_ROOMS)
         {
             for (int i = 0; i < num; i++)
             {
                 String roomName = String.valueOf(('A' + (i/5)) + "-" + ((i + 1) % 5));
-                this.rooms.add(new Room(roomName, this.basePrice));
+                rooms.add(new Room(roomName, type, basePrice));
             }
             return true;
         }
@@ -195,14 +196,14 @@ public class Hotel
      */
     public void removeRooms(int num)
     {
-        if (num <= this.getNumOfAvailRooms())
+        if (num <= getNumOfAvailRooms())
         {
-            int start = this.getNumOfRooms() - 1;
-            int end = this.getNumOfRooms() - num;
+            int start = getNumOfRooms() - 1;
+            int end = getNumOfRooms() - num;
 
             for (int i = start; i >= end; i--)
             {
-                this.rooms.remove(i);
+                rooms.remove(i);
             }
         }
     }

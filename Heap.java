@@ -23,7 +23,7 @@ public class Heap {
     /* 
      * State information.
      */
-    private static State state;      // The system's current state.
+    private static Context state;    // The system's current state.
     private static boolean hadError; // Determines if there was an input error.
     private static String feedback;  // The most recent feedback by the system.
 
@@ -34,7 +34,7 @@ public class Heap {
     private static Hotel hotel;             // The hotel being processed.
     private static Room room;               // The room being processed.
     private static Reservation reservation; // The reservation being processed.
-    private static String guestName;        // The guest name being processed.
+    private static String text;             // The text being processed.
     private static int checkIn;             // The check-in date being processed.
     private static int checkOut;            // The check-out date being processed.
     
@@ -47,7 +47,7 @@ public class Heap {
     {
         Heap.isRunning = true;
 
-        // TODO Set state to MAIN MENU.
+        Heap.state = Context.MAIN_MENU;
         Heap.hadError = false;
         Heap.feedback = "";
 
@@ -84,7 +84,7 @@ public class Heap {
      * 
      * @return {State}
      */
-    public State getState()
+    public Context getState()
     {
         return Heap.state;
     }
@@ -107,7 +107,7 @@ public class Heap {
      */
     public Hotel getHotel(int index)
     {
-        if (index >= 0 && index < this.getNumOfHotels())
+        if (index >= 0 && index < getNumOfHotels())
             return Heap.hotels.get(index);
         
         return null;
@@ -121,10 +121,10 @@ public class Heap {
      */
     public Hotel getHotel(String name)
     {
-        for (int i = 0; i < this.getNumOfHotels(); i++)
+        for (int i = 0; i < getNumOfHotels(); i++)
         {
-            if (this.getHotel(i).getName().equals(name))
-                return this.getHotel(i);
+            if (getHotel(i).getName().equals(name))
+                return getHotel(i);
         }
         return null;
     }
@@ -160,13 +160,13 @@ public class Heap {
     }
 
     /**
-     * Returns the guest name being processed.
+     * Returns the text being processed.
      * 
      * @return {String}
      */
-    public String getGuestName()
+    public String getText()
     {
-        return Heap.guestName;
+        return Heap.text;
     }
 
     /**
@@ -212,7 +212,27 @@ public class Heap {
     }
 
     /**
-     * Sets the hotel being processed.
+     * Sets the hotel being processed given the index.
+     * 
+     * @param index {int} The index.
+     */
+    public void setHotel(int index)
+    {
+        Heap.hotel = getHotel(index);
+    }
+
+    /**
+     * Sets the hotel being processed given the name.
+     * 
+     * @param name {String} The hotel name.
+     */
+    public void setHotel(String name)
+    {
+        Heap.hotel = getHotel(name);
+    }
+
+    /**
+     * Sets the hotel being processed given the hotel object.
      * 
      * @param hotel {Hotel} The hotel.
      */
@@ -242,33 +262,49 @@ public class Heap {
     }
 
     /**
-     * Sets the guest name being processed.
+     * Sets the text being processed.
      * 
-     * @param guestName {String} The guest name.
+     * @param text {String} The text.
      */
-    public void setGuestName(String guestName)
+    public void setText(String text)
     {
-        Heap.guestName = guestName;
+        Heap.text = text;
     }
 
     /**
      * Sets the check-in date being processed.
      * 
+     * Returns true only if the given check-in date is within 1 to 30.
+     * 
      * @param checkIn {int} The check-in date.
+     * @return {boolean}
      */
-    public void setCheckIn(int checkIn)
+    public boolean setCheckIn(int checkIn)
     {
-        Heap.checkIn = checkIn;
+        if (checkIn >= 1 && checkIn <= 30)
+        {
+            Heap.checkIn = checkIn;
+            return true;
+        }
+        return false;
     }
 
     /**
      * Sets the check-out date being processed.
      * 
+     * Returns true only if the given check-out date is within 2 to 31.
+     * 
      * @param checkOut {int} The check-out date.
+     * @return {boolean}
      */
-    public void setCheckOut(int checkOut)
+    public boolean setCheckOut(int checkOut)
     {
-        Heap.checkOut = checkOut;
+        if (checkOut >= 2 && checkOut <= 31)
+        {
+            Heap.checkOut = checkOut;
+            return true;
+        }
+        return false;
     }
 
     /* --------------------------------- ADDERS --------------------------------- */
@@ -276,16 +312,26 @@ public class Heap {
     /**
      * Adds a hotel to the system.
      * 
-     * Returns true only if the given name is unique.
+     * Returns true only if the given name is unique and the number of rooms to be
+     * added is within 1 to 50.
      * 
      * @param name {String} The hotel name.
      * @param basePrice {int} The base price.
      * @param nRooms {int} The number of hotel rooms.
      * @return {Hotel}
      */
-    public void addHotel(String name, double basePrice, int nRooms)
+    public boolean addHotel(String name, double basePrice, int nRooms)
     {
+        if (nRooms < 1 || nRooms > 50)
+            return false;
+            
+        for (int i = 0; i < getNumOfHotels(); i++)
+        {
+            if (getHotel(i).getName().equals(name)) 
+                return false;
+        }
         Heap.hotels.add(new Hotel(name, basePrice, nRooms));
+        return true;
     }
 
     /* -------------------------------- REMOVERS -------------------------------- */
@@ -297,7 +343,7 @@ public class Heap {
      */
     public boolean removeHotel(String name)
     {
-        Hotel hotelToRemove = this.getHotel(name);
+        Hotel hotelToRemove = getHotel(name);
 
         if (hotelToRemove != null)
         {

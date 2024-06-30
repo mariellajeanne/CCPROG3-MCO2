@@ -6,3 +6,7 @@ Categories:
 - Removers
 - Updaters
 - Booleans
+
+// TODO Is the check-out date included for the reservation
+// TODO Add HashMap and ternary condition to the APA references
+// TODO Figure out how to do error-checking (maybe make an error class, or maybe just leave it be)
