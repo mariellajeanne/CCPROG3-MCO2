@@ -1,62 +1,98 @@
-/*
-STEPHEN:
-has a label + text field + (error message?) + (description?) ✅
-Comments: Although i am not sure what description is for
-
-hungarian notation: inp ✅
-new JInputPanel(label, text field default text) ✅
-setError(error message, error condition) ✅
-
-for errors, sort error priority ❌
-Comments : I am not sure what the errors are
-
-Question : The size of and color of the Label, will it depend on the page?
+/**
+ *
+ * @author Stephen M. Borja
+ * @author Mariella Jeanne A. Dellosa
+ *
+ * JInputPanel is a custom JPanel that includes a label, a text field, an optional error message, and an optional description.
  */
 
 import javax.swing.*;
 import java.awt.*;
 
-public class JInputPanel extends JPanel{
+/**
+ * The JInputPanel class
+ */
+public class JInputPanel extends JPanel {
 
-    //VARIABLES
-    private JLabel inpLabel;
-    private JTextField inpTextField; //Input
-    private JLabel inpErrorMessage;
-    private JLabel inpDescription;
+    private JLabel lblLabel;
+    private JTextField txtTextField;
+    private JLabel lblErrorMessage;
+    private JLabel lblDescription;
 
     //CONSTRUCTOR
-    public JInputPanel(String labelText, String deafultText){
-        //Initializes the text for label and textfield
-        this.inpLabel = new JLabel(labelText);
-        this.inpTextField = new JTextField(deafultText);
-        this.inpErrorMessage = new JLabel();
-        this.inpDescription = new JLabel();
 
-        //Colors the errorMessage in red
-        this.inpErrorMessage.setForeground(Color.RED);
+    /**
+     * Constructs a new JInputPanel with a specified label text and default text for the text field.
+     *
+     * @param labelText The text to display on the label.
+     * @param defaultText The default text to display in the text field.
+     */
+    public JInputPanel(String labelText, String defaultText) {
+        this.setBackground(Color.YELLOW);
 
-        //Adds the label, description, errormessage and description
-        add(inpLabel);
-        add(inpDescription);
-        add(inpErrorMessage);
-        add(inpDescription);
+        // Initializes the text for label and text field
+        this.lblLabel = new JLabel(labelText);
+        this.txtTextField = new JTextField(defaultText);
+        this.lblErrorMessage = new JLabel();
+        this.lblDescription = new JLabel();
 
-        //Hides the errormesage and description
-        this.inpErrorMessage.setVisible(false);
-        this.inpDescription.setVisible(false);
+        // Colors the error message in red
+        this.lblErrorMessage.setForeground(Color.RED);
+
+        // Adds the label, text field, description, and error message to the panel
+        this.add(lblLabel);
+        this.add(txtTextField);
+        this.add(lblDescription);
+        this.add(lblErrorMessage);
+
+        // Hides the error message and description initially
+        this.lblLabel.setVisible(true);
+        this.lblErrorMessage.setVisible(false);
+        this.lblDescription.setVisible(false);
+
+        // Sets the size of the panel
+        this.setBounds(1980 / 2 - this.getPreferredSize().width, 1080 / 2 - this.getPreferredSize().height,
+                this.getPreferredSize().width, this.getPreferredSize().height);
     }
 
     //SETTERS
-    public void setError(String errorMessage, boolean errorCondition){
-        //If errorCondition is true shows the error message
-        if(errorCondition){
-            this.inpErrorMessage.setText(errorMessage);
-            this.inpErrorMessage.setVisible(true);
+
+    /**
+     * Sets the error message and its visibility based on the error condition.
+     *
+     * @param errorMessage The error message to display.
+     * @param errorCondition If true, displays the error message; otherwise, hides it.
+     */
+    public void setError(String errorMessage, boolean errorCondition) {
+        if (errorCondition) {
+            this.lblErrorMessage.setText(errorMessage);
+            this.lblErrorMessage.setVisible(true);
+        } else {
+            this.lblErrorMessage.setVisible(false);
         }
-        //If errorCondition is false hides the error message
-        else{
-            this.inpErrorMessage.setVisible(true);
-        }
+        this.setBounds(1980 / 2 - this.getPreferredSize().width, 1080 / 2 - this.getPreferredSize().height,
+                this.getPreferredSize().width, this.getPreferredSize().height);
     }
 
+    /**
+     * Sets the description message and makes it visible.
+     *
+     * @param descriptionMessage The description message to display.
+     */
+    public void setInpDescription(String descriptionMessage) {
+        this.lblDescription.setText(descriptionMessage);
+        this.lblDescription.setVisible(true);
+        this.setBounds(1980 / 2 - this.getPreferredSize().width, 1080 / 2 - this.getPreferredSize().height,
+                this.getPreferredSize().width, this.getPreferredSize().height);
+    }
+
+    /**
+     * Sets the location of the panel on the screen.
+     *
+     * @param x The x-coordinate of the panel's new location.
+     * @param y The y-coordinate of the panel's new location.
+     */
+    public void setPanelLocation(int x, int y) {
+        this.setBounds(x, y, this.getPreferredSize().width, this.getPreferredSize().height);
+    }
 }
